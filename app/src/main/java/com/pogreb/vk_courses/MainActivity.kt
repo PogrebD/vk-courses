@@ -1,6 +1,7 @@
 package com.pogreb.vk_courses
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.EditText
 import androidx.activity.ComponentActivity
@@ -26,6 +27,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.pogreb.vk_courses.ui.theme.VkcoursesTheme
 import kotlin.coroutines.coroutineContext
+import androidx.core.net.toUri
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,22 +51,32 @@ fun MainScreen(modifier: Modifier = Modifier) {
     val context = LocalContext.current
 
     var text by remember { mutableStateOf("") }
+    var valid by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier,
+        verticalArrangement = Arrangement.SpaceBetween
     ) {
         TextField(
             value = text,
             onValueChange = { newValue ->
                 text = newValue
+                valid = isValidRussianPhone(text)
             },
-            label = { Text("Введите что-нибудь") }
+            label = { Text("Введите что-нибудь") },
+            supportingText = {
+                if (!valid) {
+                    Text("Неправильный номер")
+                }
+            }
         )
+
         TextButton(
             onClick = {
+                val phone = cleanPhone(text)
                 context.startActivity(
                     Intent(context, SecondActivity::class.java).apply {
-                        putExtra("key", text)
+                        putExtra("key", phone)
                     })
             }
         ) {
@@ -72,7 +84,39 @@ fun MainScreen(modifier: Modifier = Modifier) {
                 text = "Открыть вторую Activity"
             )
         }
+
+        TextButton(
+            onClick = {
+                context.startActivity(
+                    Intent(Intent.ACTION_DIAL).apply {
+                        data = ("tel:$text").toUri()
+                    })
+            },
+            enabled = valid
+        ) {
+            Text(
+                text = "Позвонить другу"
+            )
+        }
     }
+}
+
+fun isValidRussianPhone(input: String): Boolean {
+    val clean = cleanPhone(input)
+    val digits = clean.removePrefix("+")
+
+    return when (digits.length) {
+        11 if (digits.startsWith("7") || digits.startsWith("8")) -> true
+        10 -> true
+        else -> false
+    }
+}
+
+fun cleanPhone(input: String): String {
+    val trimmed = input.trim()
+    val hasPlus = trimmed.startsWith("+")
+    val digits = trimmed.filter { it.isDigit() }
+    return if (hasPlus) "+$digits" else digits
 }
 
 @Preview(showBackground = true)
