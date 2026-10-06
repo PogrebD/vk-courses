@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -97,6 +98,19 @@ fun MainScreen(modifier: Modifier = Modifier) {
             Text(
                 text = "Позвонить другу"
             )
+        }
+
+        TextButton(
+            onClick = {
+                val intentSend = Intent(Intent.ACTION_SEND).apply {
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_TEXT, text)
+                }
+                context.startActivity(Intent.createChooser(intentSend, "Поделиться через"))
+            },
+            enabled = text.isNotEmpty()
+        ) {
+            Text("Поделиться текстом")
         }
     }
 }
