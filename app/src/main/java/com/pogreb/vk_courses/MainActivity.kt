@@ -5,13 +5,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.pogreb.vk_courses.presentation.ui.AppsListScreen
+import com.pogreb.vk_courses.navigation.AppNavHost
+import com.pogreb.vk_courses.presentation.ui.applist.AppsListScreen
 import com.pogreb.vk_courses.ui.theme.VkcoursesTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,7 +20,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             VkcoursesTheme {
-                AppsListScreen()
+                Surface (modifier = Modifier.fillMaxSize()) {
+                    AppNavHost()
+                }
             }
         }
     }
