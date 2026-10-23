@@ -17,6 +17,7 @@ import com.pogreb.vk_courses.ui.theme.VkcoursesTheme
 @Composable
 internal fun Toolbar(
     onBackClick: () -> Unit,
+    onShareClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -31,7 +32,7 @@ internal fun Toolbar(
                 tint = MaterialTheme.colorScheme.primary,
             )
         }
-        IconButton(onClick = {}) {
+        IconButton(onClick = onShareClick) {
             Icon(
                 imageVector = Icons.Default.Share,
                 contentDescription = null,
@@ -47,6 +48,7 @@ private fun Preview() {
     VkcoursesTheme {
         Toolbar(
             onBackClick = {},
+            onShareClick = {},
         )
     }
 }

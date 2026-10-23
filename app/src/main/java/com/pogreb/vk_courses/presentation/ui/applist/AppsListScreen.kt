@@ -7,35 +7,57 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import com.pogreb.vk_courses.R
 import com.pogreb.vk_courses.domain.entity.App
+import com.pogreb.vk_courses.presentation.state.AppsListState
+import com.pogreb.vk_courses.presentation.viewmodel.AppsListViewModel
 
 @Composable
 internal fun AppsListScreen(
     onAppClick: (Int) -> Unit = {}
 ) {
+    val viewModel = viewModel<AppsListViewModel>()
+    val state by viewModel.state.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        viewModel.load()
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = { AppsTopBar() }
     ) { innerPadding ->
-        AppsListContent(
-            apps = apps,
-            onAppClick = onAppClick,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding),
-        )
+
+        when(val currentState = state) {
+            is AppsListState.Content -> {
+                AppsListContent(
+                    apps = currentState.apps,
+                    onAppClick = onAppClick,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding),
+                )
+            }
+            is AppsListState.Loading -> {
+                CircularProgressIndicator()
+            }
+        }
+
     }
 }
 
@@ -68,68 +90,3 @@ private fun AppsTopBar(modifier: Modifier = Modifier) {
         ),
     )
 }
-val apps = listOf(
-    App(
-        id = 1L,
-        name = "VK",
-        description = "Популярный мэсенджер",
-        category = "Социальные сети",
-        iconUrl = "https://fastly.picsum.photos/id/239/200/200.jpg?hmac=8JqlXUpZ9Xy0H6tMK8sCPQAYU9vUn9Qa8Kg-U9h3sCY",
-    ),
-    App(
-        id = 2L,
-        name = "OK",
-        description = "Популярный мэсенджер",
-        category = "Социальные сети",
-        iconUrl = "https://fastly.picsum.photos/id/239/200/200.jpg?hmac=8JqlXUpZ9Xy0H6tMK8sCPQAYU9vUn9Qa8Kg-U9h3sCY",
-    ),
-    App(
-        id = 3L,
-        name = "TG",
-        description = "Очень долгое описание, очень долгое описание, очень долгое описание, очень долгое описание, очень долгое описание, очень долгое описание, очень долгое описание, очень долгое описание, очень долгое описание, очень долгое описание, очень долгое описание, очень долгое описание, очень долгое описание, очень долгое описание, очень долгое описание, очень долгое описание, очень долгое описание, очень долгое описание, очень долгое описание, очень долгое описание",
-        category = "Социальные сети",
-        iconUrl = "https://fastly.picsum.photos/id/239/200/200.jpg?hmac=8JqlXUpZ9Xy0H6tMK8sCPQAYU9vUn9Qa8Kg-U9h3sCY",
-    ),
-    App(
-        id = 4L,
-        name = "VK",
-        description = "Популярный мэсенджер",
-        category = "Социальные сети",
-        iconUrl = "https://fastly.picsum.photos/id/239/200/200.jpg?hmac=8JqlXUpZ9Xy0H6tMK8sCPQAYU9vUn9Qa8Kg-U9h3sCY",
-    ),
-    App(
-        id = 5L,
-        name = "OK",
-        description = "Популярный мэсенджер",
-        category = "Социальные сети",
-        iconUrl = "https://fastly.picsum.photos/id/239/200/200.jpg?hmac=8JqlXUpZ9Xy0H6tMK8sCPQAYU9vUn9Qa8Kg-U9h3sCY",
-    ),
-    App(
-        id = 6L,
-        name = "TG",
-        description = "Популярный мэсенджер",
-        category = "Социальные сети",
-        iconUrl = "https://fastly.picsum.photos/id/239/200/200.jpg?hmac=8JqlXUpZ9Xy0H6tMK8sCPQAYU9vUn9Qa8Kg-U9h3sCY",
-    ),
-    App(
-        id = 7L,
-        name = "VK",
-        description = "Популярный мэсенджер",
-        category = "Социальные сети",
-        iconUrl = "https://fastly.picsum.photos/id/239/200/200.jpg?hmac=8JqlXUpZ9Xy0H6tMK8sCPQAYU9vUn9Qa8Kg-U9h3sCY",
-    ),
-    App(
-        id = 8L,
-        name = "OK",
-        description = "Популярный мэсенджер",
-        category = "Социальные сети",
-        iconUrl = "https://fastly.picsum.photos/id/239/200/200.jpg?hmac=8JqlXUpZ9Xy0H6tMK8sCPQAYU9vUn9Qa8Kg-U9h3sCY",
-    ),
-    App(
-        id = 9L,
-        name = "TG",
-        description = "Популярный мэсенджер",
-        category = "Социальные сети",
-        iconUrl = "https://fastly.picsum.photos/id/239/200/200.jpg?hmac=8JqlXUpZ9Xy0H6tMK8sCPQAYU9vUn9Qa8Kg-U9h3sCY",
-    ),
-)

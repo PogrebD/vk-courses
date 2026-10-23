@@ -25,11 +25,13 @@ fun AppDetailsContent(
     appDetails: AppDetails,
     similarApps: List<App>,
     onBackClick: () -> Unit,
+    onShareClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier.verticalScroll(rememberScrollState())) {
         Toolbar(
             onBackClick = onBackClick,
+            onShareClick = onShareClick,
         )
         Spacer(Modifier.height(8.dp))
         AppDetailsHeader(
@@ -117,6 +119,7 @@ private fun Preview() {
             },
             onBackClick = {},
             modifier = Modifier.fillMaxSize(),
+            onShareClick = {},
         )
     }
 }
