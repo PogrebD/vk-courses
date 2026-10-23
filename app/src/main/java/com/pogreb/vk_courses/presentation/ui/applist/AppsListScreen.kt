@@ -1,10 +1,8 @@
-package com.pogreb.vk_courses.presentation.ui
+package com.pogreb.vk_courses.presentation.ui.applist
 
-import androidx.compose.foundation.Image
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -17,14 +15,15 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import coil3.compose.AsyncImage
 import com.pogreb.vk_courses.R
 import com.pogreb.vk_courses.domain.entity.App
 
 @Composable
-internal fun AppsListScreen() {
+internal fun AppsListScreen(
+    onAppClick: (Int) -> Unit = {}
+) {
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -32,6 +31,7 @@ internal fun AppsListScreen() {
     ) { innerPadding ->
         AppsListContent(
             apps = apps,
+            onAppClick = onAppClick,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding),

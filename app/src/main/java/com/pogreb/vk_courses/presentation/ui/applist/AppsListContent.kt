@@ -1,6 +1,7 @@
-package com.pogreb.vk_courses.presentation.ui
+package com.pogreb.vk_courses.presentation.ui.applist
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -15,7 +16,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ShapeDefaults
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -32,7 +32,8 @@ import com.pogreb.vk_courses.ui.theme.VkcoursesTheme
 @Composable
 internal fun AppsListContent(
     apps: List<App>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onAppClick: (Int) -> Unit 
 ) {
     LazyColumn(
         modifier = modifier
@@ -44,7 +45,10 @@ internal fun AppsListContent(
             items = apps,
             key = { app -> app.id },
         ) { app ->
-            AppCard(app = app)
+            AppCard(
+                app = app,
+                onAppClick = onAppClick
+            )
         }
     }
 }
@@ -53,10 +57,12 @@ internal fun AppsListContent(
 fun AppCard(
     app: App,
     modifier: Modifier = Modifier,
+    onAppClick: (Int) -> Unit 
 ) {
     Card(
         modifier = modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable { onAppClick(1) },
         shape = ShapeDefaults.Small,
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -138,7 +144,8 @@ fun Preview() {
                     category = "Социальные сети",
                     iconUrl = "https://fastly.picsum.photos/id/239/200/200.jpg?hmac=8JqlXUpZ9Xy0H6tMK8sCPQAYU9vUn9Qa8Kg-U9h3sCY",
                 ),
-            )
+            ),
+            onAppClick = {}
         )
     }
 }
