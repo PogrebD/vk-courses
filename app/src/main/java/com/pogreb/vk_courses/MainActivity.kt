@@ -13,7 +13,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.pogreb.vk_courses.navigation.AppNavHost
 import com.pogreb.vk_courses.presentation.ui.applist.AppsListScreen
 import com.pogreb.vk_courses.ui.theme.VkcoursesTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,21 +27,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    VkcoursesTheme {
-        Greeting("Android")
     }
 }
