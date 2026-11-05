@@ -9,29 +9,21 @@ import com.pogreb.vk_courses.data.repository.AppRepositoryImpl
 import com.pogreb.vk_courses.domain.usecase.GetAppDetailsUseCase
 import com.pogreb.vk_courses.domain.usecase.GetAppsListUseCase
 import com.pogreb.vk_courses.presentation.state.AppDetailsState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AppDetailsViewModel() : ViewModel() {
-    private val getAppDetailsUseCase = GetAppDetailsUseCase(
-        repository = AppRepositoryImpl(
-            api = AppApi(),
-            appMapper = AppMapper(),
-            appDetailsMapper = AppDetailsMapper()
-        )
-    )
+@HiltViewModel
+class AppDetailsViewModel @Inject constructor(
+    private val getAppDetailsUseCase: GetAppDetailsUseCase,
+    private val getAppsListUseCase: GetAppsListUseCase,
+) : ViewModel() {
 
-    private val getAppsListUseCase = GetAppsListUseCase(
-        repository = AppRepositoryImpl(
-            api = AppApi(),
-            appMapper = AppMapper(),
-            appDetailsMapper = AppDetailsMapper()
-        )
-    )
     private val _state = MutableStateFlow<AppDetailsState>(AppDetailsState.Loading)
     val state = _state.asStateFlow()
 

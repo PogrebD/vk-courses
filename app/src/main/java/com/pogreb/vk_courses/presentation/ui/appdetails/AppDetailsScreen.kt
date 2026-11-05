@@ -14,8 +14,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pogreb.vk_courses.presentation.state.AppDetailsState
 import com.pogreb.vk_courses.presentation.viewmodel.AppDetailsViewModel
 
@@ -23,7 +23,7 @@ import com.pogreb.vk_courses.presentation.viewmodel.AppDetailsViewModel
 fun AppDetailsScreen(
     onShowcaseAppClick: () -> Unit = {}
 ) {
-    val viewModel = viewModel<AppDetailsViewModel>()
+    val viewModel = hiltViewModel<AppDetailsViewModel>()
     val state by viewModel.state.collectAsStateWithLifecycle()
     val snackBarHostState = remember { SnackbarHostState() }
 

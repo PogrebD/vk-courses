@@ -19,11 +19,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import com.pogreb.vk_courses.R
-import com.pogreb.vk_courses.domain.entity.App
 import com.pogreb.vk_courses.presentation.state.AppsListState
 import com.pogreb.vk_courses.presentation.viewmodel.AppsListViewModel
 
@@ -31,7 +30,7 @@ import com.pogreb.vk_courses.presentation.viewmodel.AppsListViewModel
 internal fun AppsListScreen(
     onAppClick: (Int) -> Unit = {}
 ) {
-    val viewModel = viewModel<AppsListViewModel>()
+    val viewModel = hiltViewModel<AppsListViewModel>()
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
