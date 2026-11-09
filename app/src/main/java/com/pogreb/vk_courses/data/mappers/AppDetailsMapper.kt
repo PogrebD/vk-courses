@@ -15,7 +15,7 @@ class AppDetailsMapper {
             ageRating = dto.ageRating,
             size = dto.size,
             iconUrl = dto.iconUrl,
-            screenshotUrlList = dto.screenshotUrlList,
+            screenshotUrlList = dto.screenshots,
             description = dto.description
         )
 }
