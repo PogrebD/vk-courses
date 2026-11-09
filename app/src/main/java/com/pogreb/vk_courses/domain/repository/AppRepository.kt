@@ -4,6 +4,6 @@ import com.pogreb.vk_courses.domain.entity.App
 import com.pogreb.vk_courses.domain.entity.AppDetails
 
 interface AppRepository {
-    fun getApps(): List<App>
-    fun getAppDetails(): AppDetails
+    suspend fun getApps(): List<App>
+    suspend fun getAppDetails(id: String): AppDetails
 }

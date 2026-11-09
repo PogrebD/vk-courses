@@ -21,7 +21,7 @@ import com.pogreb.vk_courses.presentation.viewmodel.AppDetailsViewModel
 
 @Composable
 fun AppDetailsScreen(
-    onShowcaseAppClick: () -> Unit = {}
+    onShowcaseAppClick: (String) -> Unit = {}
 ) {
     val viewModel = hiltViewModel<AppDetailsViewModel>()
     val state by viewModel.state.collectAsStateWithLifecycle()

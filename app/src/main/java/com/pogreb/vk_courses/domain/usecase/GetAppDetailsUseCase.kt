@@ -5,5 +5,5 @@ import com.pogreb.vk_courses.domain.repository.AppRepository
 class GetAppDetailsUseCase(
     private val repository: AppRepository
 ) {
-    operator fun invoke() = repository.getAppDetails()
+    suspend operator fun invoke(id: String) = repository.getAppDetails(id)
 }
