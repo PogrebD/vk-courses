@@ -9,6 +9,8 @@ import com.pogreb.vk_courses.data.repository.AppRepositoryImpl
 import com.pogreb.vk_courses.domain.repository.AppRepository
 import com.pogreb.vk_courses.domain.usecase.GetAppDetailsUseCase
 import com.pogreb.vk_courses.domain.usecase.GetAppsListUseCase
+import com.pogreb.vk_courses.domain.usecase.LoadRatingsInParallelUseCase
+import com.pogreb.vk_courses.domain.usecase.LoadRatingsSequentiallyUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -49,6 +51,18 @@ object AppModule {
     @Singleton
     fun provideGetAppListUseCase(repository: AppRepository): GetAppsListUseCase {
         return GetAppsListUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLoadRatingsSequentiallyUseCase(repository: AppRepository): LoadRatingsSequentiallyUseCase {
+        return LoadRatingsSequentiallyUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLoadRatingsInParallelUseCase(repository: AppRepository): LoadRatingsInParallelUseCase {
+        return LoadRatingsInParallelUseCase(repository)
     }
 
     @Provides

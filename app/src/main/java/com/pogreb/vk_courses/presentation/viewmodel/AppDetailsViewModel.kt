@@ -7,9 +7,11 @@ import androidx.lifecycle.viewModelScope
 import com.pogreb.vk_courses.domain.usecase.GetAppDetailsUseCase
 import com.pogreb.vk_courses.domain.usecase.GetAppsListUseCase
 import com.pogreb.vk_courses.presentation.state.AppDetailsState
+import com.pogreb.vk_courses.presentation.state.InstallState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -17,6 +19,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.coroutines.cancellation.CancellationException
+import kotlin.time.Duration.Companion.milliseconds
 
 @HiltViewModel
 class AppDetailsViewModel @Inject constructor(
@@ -36,6 +39,8 @@ class AppDetailsViewModel @Inject constructor(
 
     private val id: String = checkNotNull(savedStateHandle["appId"])
 
+    private var installJob: Job?  = null
+
     init {
         load()
     }
@@ -51,7 +56,8 @@ class AppDetailsViewModel @Inject constructor(
                 _state.update {
                     AppDetailsState.Content(
                         appDetails = appDetails,
-                        similarApps = similarApps
+                        similarApps = similarApps,
+                        installState = InstallState.NotInstalled
                     )
                 }
             } catch (e: CancellationException) {
@@ -66,6 +72,42 @@ class AppDetailsViewModel @Inject constructor(
     fun onShareClicked() {
         viewModelScope.launch {
             _snackBarChannel.send("В разработке")
+        }
+    }
+
+    fun onInstallClick() {
+        val current = _state.value
+        if (current !is AppDetailsState.Content) return
+
+        if (current.installState is InstallState.Installing) {
+            installJob?.cancel()
+            _state.update { currentState ->
+                if (currentState is AppDetailsState.Content) {
+                    currentState.copy(installState = InstallState.NotInstalled)
+                } else currentState
+            }
+        } else {
+            installJob = viewModelScope.launch { emulateInstall() }
+        }
+    }
+
+    private suspend fun emulateInstall() {
+        var progress = 0
+        
+        while (progress <= 100) {
+            _state.update { currentState ->
+                if (currentState is AppDetailsState.Content) {
+                    currentState.copy(installState = InstallState.Installing(progress))
+                } else currentState
+            }
+            delay(150.milliseconds)
+            progress+=5
+        }
+
+        _state.update { currentState ->
+            if (currentState is AppDetailsState.Content) {
+                currentState.copy(installState = InstallState.Installed)
+            } else currentState
         }
     }
 }
