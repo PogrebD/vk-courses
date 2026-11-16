@@ -33,7 +33,7 @@ import com.pogreb.vk_courses.ui.theme.VkcoursesTheme
 internal fun AppsListContent(
     apps: List<App>,
     modifier: Modifier = Modifier,
-    onAppClick: (Int) -> Unit 
+    onAppClick: (String) -> Unit
 ) {
     LazyColumn(
         modifier = modifier
@@ -57,12 +57,12 @@ internal fun AppsListContent(
 fun AppCard(
     app: App,
     modifier: Modifier = Modifier,
-    onAppClick: (Int) -> Unit 
+    onAppClick: (String) -> Unit
 ) {
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onAppClick(1) },
+            .clickable { onAppClick(app.id) },
         shape = ShapeDefaults.Small,
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -124,21 +124,21 @@ fun Preview() {
         AppsListContent(
             apps = listOf(
                 App(
-                    id = 1L,
+                    id = "id",
                     name = "VK",
                     description = "Популярный мэсенджер",
                     category = "Социальные сети",
                     iconUrl = "https://fastly.picsum.photos/id/239/200/200.jpg?hmac=8JqlXUpZ9Xy0H6tMK8sCPQAYU9vUn9Qa8Kg-U9h3sCY",
                 ),
                 App(
-                    id = 2L,
+                    id = "id",
                     name = "OK",
                     description = "Популярный мэсенджер",
                     category = "Социальные сети",
                     iconUrl = "https://fastly.picsum.photos/id/239/200/200.jpg?hmac=8JqlXUpZ9Xy0H6tMK8sCPQAYU9vUn9Qa8Kg-U9h3sCY",
                 ),
                 App(
-                    id = 3L,
+                    id = "id",
                     name = "TG",
                     description = "Популярный мэсенджер",
                     category = "Социальные сети",

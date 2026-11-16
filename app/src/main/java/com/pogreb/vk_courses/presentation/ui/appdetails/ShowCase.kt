@@ -41,7 +41,7 @@ private const val PAGE_COUNT = 3
 @Composable
 fun ShowCase(
     apps: List<App>,
-    onAppClick: (Long) -> Unit,
+    onAppClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val pagerState = rememberPagerState(pageCount = { PAGE_COUNT })
@@ -109,7 +109,7 @@ fun ShowCase(
 fun AppCardCompact(
     app: App,
     modifier: Modifier = Modifier,
-    onAppClick: (Long) -> Unit,
+    onAppClick: (String) -> Unit,
 ) {
     Card(
         modifier = modifier.clickable { onAppClick(app.id) },

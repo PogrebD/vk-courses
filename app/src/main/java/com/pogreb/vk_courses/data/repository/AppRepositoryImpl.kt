@@ -13,9 +13,9 @@ class AppRepositoryImpl @Inject constructor(
     private val appMapper: AppMapper,
     private val appDetailsMapper: AppDetailsMapper,
 ) : AppRepository {
-    override fun getApps(): List<App> =
+    override suspend fun getApps(): List<App> =
         api.getApps().map { appMapper.map(it) }
 
-    override fun getAppDetails(): AppDetails =
-        appDetailsMapper.map(api.getAppDetails())
+    override suspend fun getAppDetails(id: String): AppDetails =
+        appDetailsMapper.map(api.getAppDetails(id))
 }

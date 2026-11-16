@@ -28,7 +28,7 @@ import com.pogreb.vk_courses.presentation.viewmodel.AppsListViewModel
 
 @Composable
 internal fun AppsListScreen(
-    onAppClick: (Int) -> Unit = {}
+    onAppClick: (String) -> Unit = {}
 ) {
     val viewModel = hiltViewModel<AppsListViewModel>()
     val state by viewModel.state.collectAsStateWithLifecycle()
