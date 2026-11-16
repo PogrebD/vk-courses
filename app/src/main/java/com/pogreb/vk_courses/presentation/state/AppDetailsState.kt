@@ -8,5 +8,6 @@ sealed interface AppDetailsState {
     data class Content(
         val appDetails: AppDetails,
         val similarApps: List<App>,
+        val installState: InstallState,
     ) : AppDetailsState
 }

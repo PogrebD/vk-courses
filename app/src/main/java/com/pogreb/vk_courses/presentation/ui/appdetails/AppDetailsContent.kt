@@ -18,14 +18,17 @@ import androidx.compose.ui.unit.dp
 import com.pogreb.vk_courses.domain.entity.App
 import com.pogreb.vk_courses.domain.entity.AppDetails
 import com.pogreb.vk_courses.domain.entity.Category
+import com.pogreb.vk_courses.presentation.state.InstallState
 import com.pogreb.vk_courses.ui.theme.VkcoursesTheme
 
 @Composable
 fun AppDetailsContent(
     appDetails: AppDetails,
     similarApps: List<App>,
+    installState: InstallState,
     onBackClick: () -> Unit,
     onShareClick: () -> Unit,
+    onInstallClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier.verticalScroll(rememberScrollState())) {
@@ -40,10 +43,11 @@ fun AppDetailsContent(
         )
         Spacer(Modifier.height(16.dp))
         InstallButton(
-            onClick = { },
+            onClick = { onInstallClick() },
+            installState = installState,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 16.dp),
         )
         if (similarApps.isNotEmpty()) {
             Spacer(Modifier.height(12.dp))
@@ -120,6 +124,8 @@ private fun Preview() {
             onBackClick = {},
             modifier = Modifier.fillMaxSize(),
             onShareClick = {},
+            installState = InstallState.NotInstalled,
+            onInstallClick = {},
         )
     }
 }
