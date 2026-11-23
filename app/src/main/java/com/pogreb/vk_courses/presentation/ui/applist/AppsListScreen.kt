@@ -45,7 +45,7 @@ internal fun AppsListScreen(
         when(val currentState = state) {
             is AppsListState.Content -> {
                 AppsListContent(
-                    apps = currentState.apps,
+                    items = currentState.apps,
                     onAppClick = onAppClick,
                     modifier = Modifier
                         .fillMaxSize()

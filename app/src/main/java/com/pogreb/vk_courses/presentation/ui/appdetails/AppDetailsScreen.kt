@@ -43,9 +43,11 @@ fun AppDetailsScreen(
                 AppDetailsContent(
                     appDetails = currentState.appDetails,
                     similarApps = currentState.similarApps,
+                    installState = currentState.installState,
                     onBackClick = {
                         // TODO: Открыть предыдущий экран через Jetpack Navigation
                     },
+                    onInstallClick = { viewModel.onInstallClick() },
                     onShareClick = { viewModel.onShareClicked() },
                     modifier = Modifier
                         .fillMaxSize()
@@ -57,7 +59,5 @@ fun AppDetailsScreen(
                 CircularProgressIndicator()
             }
         }
-
-
     }
 }
